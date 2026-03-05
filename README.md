@@ -17,7 +17,7 @@ This is intentional, as the project focuses on learning FastAPI fundamentals bef
 
 ---
 
-## 🚀 Technologies Used
+## Technologies Used
 
 - Python  
 - FastAPI  
@@ -26,7 +26,7 @@ This is intentional, as the project focuses on learning FastAPI fundamentals bef
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 notes-api/
@@ -39,7 +39,7 @@ notes-api/
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Create virtual environment:
 
@@ -71,7 +71,7 @@ Swagger UI documentation will be available there.
 
 ---
 
-## 📬 Available Endpoints
+## Available Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|------------|
@@ -83,7 +83,7 @@ Swagger UI documentation will be available there.
 
 ---
 
-## ⚠️ Notes
+## Notes
 
 - Data is stored in memory.  
 - IDs are simplified for learning purposes.  
