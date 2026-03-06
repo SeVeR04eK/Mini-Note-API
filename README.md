@@ -7,13 +7,11 @@ This is a small educational CRUD API built with FastAPI as part of backend learn
 The project implements basic operations for managing notes:
 
 - Create a note  
-- Get all notes  
+- Get all notes (+the specified amount of notes)
 - Get a single note by ID  
 - Update a note  
 - Delete a note  
 
-The application uses in-memory storage (a Python list), meaning data is not persisted after server restart.  
-This is intentional, as the project focuses on learning FastAPI fundamentals before integrating a database.
 
 ---
 
@@ -22,7 +20,8 @@ This is intentional, as the project focuses on learning FastAPI fundamentals bef
 - Python  
 - FastAPI  
 - Pydantic  
-- Uvicorn  
+- Uvicorn 
+- SQLAlchemy
 
 ---
 
@@ -30,10 +29,16 @@ This is intentional, as the project focuses on learning FastAPI fundamentals bef
 
 ```
 notes-api/
-│
-├── main.py
+├── app/
+│   ├── routers/
+│   │   └── notes.py
+│   ├── database.py
+│   ├── main.py
+│   ├── modules.py
+│   └── schemas.py
 ├── requirements.txt
 ├── README.md
+├── LICENSE
 └── .gitignore
 ```
 
@@ -60,11 +65,34 @@ notes-api/
 
         pip install -r requirements.txt
 
-4. Run the server:
+4. Create database mini_note_api:
+   
+    pysql:
+
+         CREATE DATABASE mini_notes_api
+
+5. Run init file:
+
+   pysql:
+
+          \c my_database
+          \i your_full/path/init.sql
+
+6. Create .env file
+
+   Windows:
+
+          echo DATABASE_URL=postgresql+asyncpg://postgres:your_password@localhost:5432/mini_notes_api > .env
+
+   Linux:
+
+          echo "DATABASE_URL=postgresql+asyncpg://postgres:your_password@localhost:5432/mini_notes_api" > .env
+
+7. Run the server:
 
        uvicorn main:app --reload
 
-5. Open in browser:
+8. Open in browser:
 
 http://127.0.0.1:8000/docs
 Swagger UI documentation will be available there.
@@ -73,18 +101,17 @@ Swagger UI documentation will be available there.
 
 ## Available Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|------------|
-| POST   | /notes | Create a new note |
-| GET    | /notes | Get all notes |
-| GET    | /notes/{note_id} | Get note by ID |
-| PUT    | /notes/{note_id} | Update note |
-| DELETE | /notes/{note_id} | Delete note |
+| Method | Endpoint        | Description         |
+|--------|-----------------|---------------------|
+| POST   | /notes          | Create a new note   |
+| GET    | /notes          | Get all notes       |
+| GET    | /notes/{note_id} | Get note by ID     |
+| PUT    | /notes/{note_id} | Update note        |
+| DELETE | /notes/{note_id} | Delete note        |
 
 ---
 
 ## Notes
-
-- Data is stored in memory.  
-- IDs are simplified for learning purposes.  
+ 
 - This project is part of backend development practice.
+- Have fun!
