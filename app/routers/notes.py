@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, status, Depends
-from typing import List, Optional
+from fastapi import APIRouter, HTTPException, status, Depends, Body, Path, Query
+from typing import List, Optional, Annotated
 
-from fastapi.params import Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -23,7 +22,13 @@ async def note_or_404(note_id: int, session: AsyncSession):
 
 
 @router.post("/", response_model=NotesRead, status_code=status.HTTP_201_CREATED)
-async def create_note(note: NotesCreate, session: AsyncSession = Depends(get_session)):
+async def create_note(
+    note: Annotated[
+        NotesCreate,
+        Body(..., description="Creating new note")],
+    session: AsyncSession = Depends(get_session)
+):
+
     new_note = Notes(title= note.title, content= note.content)
     session.add(new_note)
     await session.commit()
@@ -34,9 +39,12 @@ async def create_note(note: NotesCreate, session: AsyncSession = Depends(get_ses
 
 @router.get("/", response_model=List[NotesRead])
 async def get_notes(
-        session: AsyncSession = Depends(get_session),
-        limit: Optional[int] = Query(None, ge=0)
+        limit: Annotated[
+            Optional[int],
+            Query(title="Limit for specific amount of notes", ge=0)] = None,
+        session: AsyncSession = Depends(get_session)
 ):
+
     result = await session.execute(select(Notes).order_by(Notes.note_id))
     result_list = result.scalars().all()
 
@@ -46,13 +54,27 @@ async def get_notes(
     return result_list
 
 @router.get("/{note_id}", response_model=NotesRead)
-async def get_notes_id(note_id: int, session: AsyncSession = Depends(get_session)):
+async def get_notes_id(
+    note_id: Annotated[
+        int,
+        Path(..., title="Id of note you want to see", ge=1)],
+    session: AsyncSession = Depends(get_session)
+):
 
     return await note_or_404(note_id, session)
 
 
 @router.put("/{note_id}", response_model=NotesRead)
-async def update_note(note_id: int, note: NotesUpdate, session: AsyncSession = Depends(get_session)):
+async def update_note(
+        note_id: Annotated[
+            int,
+            Path(..., title="Id of note you want to update", ge=1)],
+        note: Annotated[
+            NotesUpdate,
+            Body(..., description="Fully updating 1 note")],
+        session: AsyncSession = Depends(get_session)
+):
+
     note_db = await note_or_404(note_id, session)
 
     note_db.title = note.title
@@ -64,7 +86,13 @@ async def update_note(note_id: int, note: NotesUpdate, session: AsyncSession = D
 
 
 @router.delete("/{note_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_note(note_id: int, session: AsyncSession = Depends(get_session)):
+async def delete_note(
+    note_id: Annotated[
+        int,
+        Path(..., title="Id of note you want to delete", ge=1)],
+    session: AsyncSession = Depends(get_session)
+):
+
     note_db = await note_or_404(note_id, session)
 
     await session.delete(note_db)

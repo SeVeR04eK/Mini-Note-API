@@ -8,5 +8,5 @@ class Notes(Base):
     __tablename__ = 'notes'
 
     note_id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    title: Mapped[String] = mapped_column(String)
+    title: Mapped[String] = mapped_column(String(50))
     content: Mapped[String] = mapped_column(String)
