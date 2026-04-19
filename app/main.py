@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from app.database import engine
-from app.modules import Base
+from app.models import Base
 from app.routers import notes
 
 @asynccontextmanager

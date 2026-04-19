@@ -34,7 +34,7 @@ notes-api/
 │   │   └── notes.py
 │   ├── database.py
 │   ├── main.py
-│   ├── modules.py
+│   ├── models.py
 │   └── schemas.py
 ├── requirements.txt
 ├── README.md
@@ -110,8 +110,3 @@ Swagger UI documentation will be available there.
 | DELETE | /notes/{note_id} | Delete note        |
 
 ---
-
-## Notes
- 
-- This project is part of backend development practice.
-- Have fun!
